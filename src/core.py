@@ -1,32 +1,15 @@
-# Document, Chunk, RetrievalResult, Pipeline
-
-from dataclasses import dataclass
-
-@dataclass
-class Document:
-    text: str
-    metadata: dict
-
-@dataclass
-class Chunk:
-    text: str
-    metadata: dict    # inherits from Document metadata + chunk_index
-
-@dataclass
-class RetrievalResult:
-    chunk: Chunk
-    score: float
+from .models import RetrievalResult
+from .loader import load_documents
 
 class Pipeline:
-    def __init__(self, loader: Loader, chunker: Chunker,
+    def __init__(self, chunker: Chunker,
                  embedder: Embedder, store: VectorStore):
-        self.loader = loader
         self.chunker = chunker
         self.embedder = embedder
         self.store = store
 
     def ingest(self, source: str) -> int:
-        documents = self.loader.load(source)
+        documents = load_documents(source)
         total = 0
         for doc in documents:
             chunks = self.chunker.chunk(doc.text, doc.metadata)

@@ -7,6 +7,6 @@ class SimpleChunker:
         self.chunk_overlap = chunk_overlap
       
       def chunk_documents(self, documents: list[Document]) -> list[Chunk]:
-        text_splitter = RecursiveCharacterTextSplitter(self.chunk_size, self.chunk_overlap)
-        texts = text_splitter.split_documents(documents)
+        pass
         
+#converter p/ dataclass Chunk
