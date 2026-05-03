@@ -32,7 +32,6 @@ The goal is to implement a full RAG pipeline using 2 different Corpus: 500 Q&A a
 [
   {
     "metadata": {
-      "source": "<path>",
       "fonte": "<file_name>",
       "submissaoid": "<id>",
       "codigoprojeto": "<number>",
@@ -43,7 +42,6 @@ The goal is to implement a full RAG pipeline using 2 different Corpus: 500 Q&A a
       ]
     },
     "content": "<content>",
-    "content_length": "<number>" 
   },
   ...
 ]
@@ -58,7 +56,7 @@ One Document = one Q&A pair from one book.
 
 **Quaesta**
 - text: content
-- metadata: `{"source": "<path>", "fonte": "<file_name>", "submissaoid": "<id>", "codigoprojeto": "<number>", "siglainstituicao": "<sigla>", "palavrachave": ["<palavrachave>", ...]}` (for now)
+- metadata: `{"fonte": "<file_name>", "submissaoid": "<id>", "codigoprojeto": "<number>", "siglainstituicao": "<sigla>", "palavrachave": ["<palavrachave>", ...]}`
 
 
 

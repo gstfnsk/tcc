@@ -1,13 +1,13 @@
 # models for embedding
 import ollama
+from src.embedders import Embedder  
 
-class ModeloEmbedder:
-    def __init__(self, text: list(str)):
-        self.text = text
-        
+
+class Qwen3Embedder(Embedder):
+    
     def embed(self):
         response = ollama.embed(
-            model="modelo",
+            model="qwen3",
             input=self.text
         )
         return response.embeddings

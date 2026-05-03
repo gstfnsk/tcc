@@ -1,11 +1,27 @@
 import chromadb
+import uuid
+from src.store import VectorStore
+from src.models import RetrievalResult, Chunk
 
-question_and_answer_collection_name = "question_and_answer_collection"
-# quaesta_collection_name = "quaesta_collection"
+class ChromaStore(VectorStore):
 
-question_and_answer_path = "./chroma_db/question_and_answer"
-# quaesta_path = "./chroma_db/quaesta"
+    def __init__(self, path: str = "./chroma_db", collection_name: str = "default"):
+        self.client = chromadb.PersistentClient(path=path)
+        self.collection = self.client.get_or_create_collection(collection_name)
 
-client = chromadb.PersistentClient(path=question_and_answer_path)
+    def add(self, chunks: list[Chunk], embeddings: list[list[float]])-> None:
+        assert len(chunks) == len(embeddings)
+        ids = [str(uuid.uuid4()) for _ in chunks]       
+        metadatas = [chunk.metadata for chunk in chunks]
+        documents = [chunk.text for chunk in chunks] # for now storing the documents as well 
+        self.collection.add(ids=ids, embeddings=embeddings, metadatas=metadatas, documents=documents)
 
-collection = client.create_collection(question_and_answer_collection_name)
+    def query(self, query_embedding: list[float], top_k: int)->list[RetrievalResult]:
+        results = self.collection.query(query_embeddings=[query_embedding], n_results=top_k)
+        documents = results["documents"][0]
+        metadatas = results["metadatas"][0]
+        distances = results["distances"][0]
+        output = []
+        for doc, meta, dist in zip(documents, metadatas, distances):
+            output.append(RetrievalResult(chunk=Chunk(text=doc, metadata=meta), distance=dist))
+        return output

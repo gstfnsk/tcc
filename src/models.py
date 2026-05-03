@@ -8,7 +8,7 @@ class Document:
 @dataclass
 class Chunk:
     text: str
-    metadata: dict    # inherits from Document metadata + chunk_index
+    metadata: dict 
 
 @dataclass
 class RetrievalResult:

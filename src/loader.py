@@ -1,7 +1,7 @@
 import json
 import time 
 import os
-from core import Document
+from models import Document
 
 def load_documents() -> list[Document]:
     path = "../data/todos_livros_separados_por_livro.json"
