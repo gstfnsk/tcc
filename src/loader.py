@@ -1,33 +1,38 @@
 import json
 import time 
 import os
-from models import Document
+from src.models import Document
 
-def load_documents() -> list[Document]:
-    path = "../data/todos_livros_separados_por_livro.json"
+def load_documents(source_path: str) -> list[Document]:
 
     # variable to measure the time to process the documents
     # start_time = time.time()
 
-    with open(path, "r", encoding="utf-8") as file:
+    with open(source_path, "r", encoding="utf-8") as file:
         corpus = json.load(file)
 
     documents = []
 
-    # for each book, creates a document with text: question+answer and metadata: book_name+year+question
-    for book_name, book_data in corpus:
+    # for each book in the corpus, we create a document for each question-answer pair, with metadata containing the book name, year and question
+    for book_name, book_data in corpus.items():
         year = book_data["ano_publicacao"]
+
         for qa in book_data["p_e_r"]:
             question = qa["pergunta"]
             answer = qa["resposta"]
-            text = question + " " + answer
+
+            text = f"{question} {answer}"
             metadata = {
                 "book_name": book_name,
                 "year": year,
                 "question": question
             }
-            document = Document(text=text, metadata=metadata)
-            # add document to the list of documents
-            documents.append(document)
 
+            documents.append(Document(text=text, metadata=metadata))
+
+    print(f"Loaded {len(documents)} documents from {source_path}")
+
+    # end_time = time.time()
+    # print(f"Time taken to load documents: {end_time - start_time:.2f} seconds")
+    
     return documents

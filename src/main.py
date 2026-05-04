@@ -1,10 +1,10 @@
-from core import Pipeline
-from chunkers.simple_fixed_recursive_chunker import FixedChunker
-from embedders.all_minilm import AllMinilmEmbedder
-from store.chroma import ChromaStore
+from src.core import Pipeline
+from src.chunkers.simple_fixed_recursive_chunker import SimpleChunker
+from src.embedders.all_minilm import AllMinilmEmbedder
+from src.store.chroma import ChromaStore
 
 pipeline = Pipeline(
-    chunker=FixedChunker(chunk_size=1000, chunk_overlap=200),
+    chunker=SimpleChunker(chunk_size=1000, chunk_overlap=200),
     embedder=AllMinilmEmbedder(),
     store=ChromaStore(path="./chroma_db", collection_name="test")
 )

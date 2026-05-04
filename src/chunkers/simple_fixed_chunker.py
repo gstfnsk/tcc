@@ -1,5 +1,5 @@
 from langchain_text_splitters import TextSplitter
-from models import Document, Chunk
+from src.models import Document, Chunk
 from src.chunkers import Chunker
 
 #Splits text into equal-sized chunks with overlaps to preserve context.

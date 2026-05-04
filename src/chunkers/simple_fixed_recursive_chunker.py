@@ -1,5 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from models import Document, Chunk
+from src.models import Document, Chunk
 from src.chunkers import Chunker
 
 # Splits text hierarchically (sections → paragraphs) to preserve logical structure.
