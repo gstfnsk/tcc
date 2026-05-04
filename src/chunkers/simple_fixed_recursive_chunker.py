@@ -4,7 +4,7 @@ from src.chunkers import Chunker
 
 # Splits text hierarchically (sections → paragraphs) to preserve logical structure.
 class SimpleChunker(Chunker):
-      def __init__(self, chunk_size=1000, chunk_overlap=200):
+      def __init__(self, chunk_size=300, chunk_overlap=50):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
       

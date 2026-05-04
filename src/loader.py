@@ -6,7 +6,7 @@ from src.models import Document
 def load_documents(source_path: str) -> list[Document]:
 
     # variable to measure the time to process the documents
-    # start_time = time.time()
+    start_time = time.time()
 
     with open(source_path, "r", encoding="utf-8") as file:
         corpus = json.load(file)
@@ -32,7 +32,7 @@ def load_documents(source_path: str) -> list[Document]:
 
     print(f"Loaded {len(documents)} documents from {source_path}")
 
-    # end_time = time.time()
-    # print(f"Time taken to load documents: {end_time - start_time:.2f} seconds")
-    
+    end_time = time.time()
+    print(f"Time taken to load documents: {end_time - start_time:.2f} seconds")
+
     return documents

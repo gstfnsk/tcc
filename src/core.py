@@ -1,12 +1,12 @@
 from src.models import RetrievalResult
 from src.chunkers.simple_fixed_recursive_chunker import SimpleChunker
-from src.embedders.all_minilm import AllMinilmEmbedder
+from src.embedders.gemma import GemmaEmbedder
 from src.store.chroma import ChromaStore
 from src.loader import load_documents
 
 class Pipeline:
     def __init__(self, chunker: SimpleChunker,
-                 embedder: AllMinilmEmbedder, store: ChromaStore):
+                 embedder: GemmaEmbedder, store: ChromaStore):
         self.chunker = chunker
         self.embedder = embedder
         self.store = store
@@ -17,10 +17,17 @@ class Pipeline:
         for doc in documents:
             chunks = self.chunker.chunk(doc)
             all_chunks.extend(chunks)
-        texts = [chunk.text for chunk in all_chunks]
-        embeddings = self.embedder.embed(texts)
-        assert len(embeddings) == len(all_chunks)
-        self.store.add(all_chunks, embeddings)
+
+        batch_size = 5
+        for i in range(0, len(all_chunks), batch_size):
+            print(f"Processing batch {i//batch_size + 1}/{(len(all_chunks) + batch_size - 1)//batch_size}...")
+            batch_chunks = all_chunks[i:i+batch_size]
+            texts = [chunk.text for chunk in batch_chunks]
+            print(f"Batch size: {len(texts)}, avg length: {sum(len(t) for t in texts)/len(texts)}")
+            print("Max length:", max(len(t) for t in texts))
+            embeddings = self.embedder.embed(texts)
+            assert len(embeddings) == len(batch_chunks)
+            self.store.add(batch_chunks, embeddings)
         return len(all_chunks)
 
     # for now, we're just querying the store directly

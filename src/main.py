@@ -4,7 +4,7 @@ from src.embedders.all_minilm import AllMinilmEmbedder
 from src.store.chroma import ChromaStore
 
 pipeline = Pipeline(
-    chunker=SimpleChunker(chunk_size=1000, chunk_overlap=200),
+    chunker=SimpleChunker(chunk_size=300, chunk_overlap=50),
     embedder=AllMinilmEmbedder(),
     store=ChromaStore(path="./chroma_db", collection_name="test")
 )
