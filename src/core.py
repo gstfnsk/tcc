@@ -1,5 +1,4 @@
 from models import RetrievalResult
-from src.chunkers import Chunker
 from src.chunkers.simple_fixed_recursive_chunker import SimpleChunker
 from src.embedders.all_minilm import AllMinilmEmbedder
 from src.store.chroma import ChromaStore
