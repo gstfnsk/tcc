@@ -9,7 +9,12 @@ class FixedChunker(Chunker):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
       
-      def chunk_documents(self, documents: list[Document]) -> list[Chunk]:
+      def chunk(self, document: Document) -> list[Chunk]:
         splitter = TextSplitter(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap)
+        chunks = []
+        doc_chunks = splitter.split_text(document.text)
+        for i, chunk_text in enumerate(doc_chunks):
+                chunk_metadata = {**document.metadata, "chunk_index": i}
+                chunks.append(Chunk(text=chunk_text, metadata=chunk_metadata))
 
-        
+        return chunks
