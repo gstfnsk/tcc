@@ -209,3 +209,7 @@ __marimo__/
 #JSON files
 *.json
 data/*.json
+
+# Chroma vector DB
+chroma_db/
+*.chroma/
