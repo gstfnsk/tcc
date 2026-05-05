@@ -23,5 +23,6 @@ class ChromaStore(VectorStore):
         distances = results["distances"][0]
         output = []
         for doc, meta, dist in zip(documents, metadatas, distances):
-            output.append(RetrievalResult(chunk=Chunk(text=doc, metadata=meta), distance=dist))
+            score = 1 / (1 + dist)  # convert distance to a similarity score
+            output.append(RetrievalResult(chunk=Chunk(text=doc, metadata=meta), score=score))
         return output
