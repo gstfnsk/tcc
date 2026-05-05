@@ -208,7 +208,9 @@ __marimo__/
 
 #JSON files
 *.json
-data/*.json
+
+# Data directory
+data/
 
 # Chroma vector DB
 chroma_db/
