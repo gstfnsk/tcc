@@ -3,13 +3,15 @@ from src.chunkers.simple_fixed_recursive_chunker import SimpleChunker
 from src.embedders.gemma import GemmaEmbedder
 from src.store.chroma import ChromaStore
 from src.loader import load_documents
+from src.generator.oss_generator import Generator
 
 class Pipeline:
     def __init__(self, chunker: SimpleChunker,
-                 embedder: GemmaEmbedder, store: ChromaStore):
+                 embedder: GemmaEmbedder, store: ChromaStore, generator: Generator):
         self.chunker = chunker
         self.embedder = embedder
         self.store = store
+        self.generator = generator
 
     def ingest(self, source: str) -> int:
         documents = load_documents(source)
@@ -34,3 +36,7 @@ class Pipeline:
     def retrieve(self, query: str, top_k: int = 5) -> list[RetrievalResult]:
         query_embedding = self.embedder.embed_query(query)
         return self.store.query(query_embedding, top_k)
+    
+    def generate_answer(self, query: str, retrieved_chunks: list[RetrievalResult]) -> str:
+        retrieved_texts = [r.chunk.text for r in retrieved_chunks]
+        return self.generator.generate(query, retrieved_texts)

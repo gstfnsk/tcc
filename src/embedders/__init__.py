@@ -6,4 +6,4 @@ class Embedder(ABC):
         pass
 
     def embed_query(self, query: str) -> list[float]:
-        return self.embed([query])[0]
+        pass

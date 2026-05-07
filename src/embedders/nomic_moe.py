@@ -1,13 +1,13 @@
-# NOTE: only used in the beginning
+#NOTE: top embedder model choice
 
 import ollama
 from src.embedders import Embedder
 
-class AllMinilmEmbedder(Embedder):
+class NomicEmbedder(Embedder):
         
     def embed(self, texts: list[str])-> list[list[float]]:
         response = ollama.embed(
-        model="all-minilm",
+        model="nomic-embed-text-v2-moe",
         input=texts
     )
         return response["embeddings"]
