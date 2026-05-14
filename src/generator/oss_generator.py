@@ -6,7 +6,7 @@ class gpt_oss_Generator(Generator):
     def generate(self, query: str, retrieved_chunks: list[str]) -> str:
         context = "\n\n".join(retrieved_chunks)
         prompt = f"Contexto: {context}\n\nPergunta: {query}\nResposta:"
-        content = "You are a helpful assistant that answers questions based on the provided context. Do not use any information that is not in the context. If you don't know the answer, say you don't know. Always use all available information from the context to answer the question."
+        content = "Você é um assistente útil que responde perguntas com base no contexto fornecido. Não use nenhuma informação que não esteja no contexto. Se você não souber a resposta, diga que não sabe. Sempre use toda a informação disponível do contexto para responder a pergunta."
         
         response = ollama.chat(
             model="gpt-oss",

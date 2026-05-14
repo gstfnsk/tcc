@@ -1,13 +1,13 @@
 from src.models import RetrievalResult
-from src.chunkers.simple_fixed_recursive_chunker import SimpleChunker
-from src.embedders.gemma import GemmaEmbedder
-from src.store.chroma import ChromaStore
+from src.chunkers import Chunker
+from src.embedders import Embedder
+from src.store import VectorStore
+from src.generator import Generator
 from src.loader import load_documents
-from src.generator.oss_generator import Generator
 
 class Pipeline:
-    def __init__(self, chunker: SimpleChunker,
-                 embedder: GemmaEmbedder, store: ChromaStore, generator: Generator):
+    def __init__(self, chunker: Chunker,
+                 embedder: Embedder, store: VectorStore, generator: Generator):
         self.chunker = chunker
         self.embedder = embedder
         self.store = store
